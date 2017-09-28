@@ -11,13 +11,16 @@
 				<!--the input for the toDo list-->
 				<input type="checkbox" id="mark_all" v-bind:checked="areAllSelected" v-on:click="selectAll">
 				<input type="text" placeholder="What Do You Need To Do?" autofocus class="text-input" v-model="newTask" v-on:keyup.enter="addTask">
+				<button  v-on:click="addTask">Submit</button>
 				<button v-on:click="clearList">Clear List</button>
 			</section>
+
 			<!--the tasks-->
 			<ul class="list">
 				<li v-for="task in taskList" v-bind:class="{done: task.checked}">
 					<input type="checkbox" class="checkbox" v-model="task.checked">
-					<label for="checkbox">{{ task.text }}</label>
+					<input type="text" v-show="task.edit" v-model="task.edit">
+					<label for="checkbox" v-on:click="editTask(task)">{{ task.title }}</label>
 					<button class="delete" v-on:click="removeTask(task)">X</button>
 				</li>
 			</ul>
@@ -30,7 +33,7 @@
 				el: "#app",
 				data: {
 					newTask: "",
-					taskList: []
+					taskList: [],
 					},
 				methods: {
 					//adding the tasks to the list
@@ -38,8 +41,9 @@
 						var task = this.newTask.trim();
 						if(task) {
 							this.taskList.push({
-								text: task,
-								checked: false
+								title: task,
+								checked: false,
+								edit: false,
 							});
 							this.newTask = "";
 						}
@@ -62,6 +66,10 @@
 						for (var i = 0; i < this.taskList.length; i++) {
 							this.taskList[i].checked = targetValue;
 						}
+					},
+
+					editTask: function(task) {
+
 					}
 				},
 				computed: {
