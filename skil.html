@@ -7,28 +7,50 @@
 	<body>
 		<!--the display-->
 		<div class="container" id="app">
+			<!--
 			<section class="panel">
-				<!--the input for the toDo list-->
 				<input type="checkbox" id="mark_all" v-bind:checked="areAllSelected" v-on:click="selectAll">
 				<input type="text" placeholder="What Do You Need To Do?" autofocus class="text-input" v-model="newTask" v-on:keyup.enter="addTask">
 				<button  v-on:click="addTask">Submit</button>
 				<button v-on:click="clearList">Clear List</button>
-			</section>
-
+			</section>-->
+			<task-operator></task-operator>
 			<!--the tasks-->
-			<ul class="list">
+			<task></task>
+			<!--<ul class="list">
 				<li v-for="task in taskList" v-bind:class="{done: task.checked}">
 					<input type="checkbox" class="checkbox" v-model="task.checked">
 					<input type="text" v-show="task.edit" v-model="task.edit">
 					<label for="checkbox" v-on:click="editTask(task)">{{ task.title }}</label>
 					<button class="delete" v-on:click="removeTask(task)">X</button>
 				</li>
-			</ul>
+			</ul>-->
 			<!--the display for the toDo list in vue code-->
 			<pre>{{$data}}</pre>
 		</div>
 		<script src="https://unpkg.com/vue"></script>
 		<script type="text/javascript">
+			Vue.component('task-operator', {
+				template:  `
+				<section class="panel">
+					<!--the input for the toDo list-->
+					<input type="checkbox" id="mark_all" v-bind:checked="areAllSelected" v-on:click="selectAll">
+					<input type="text" placeholder="What Do You Need To Do?" autofocus class="text-input" v-model="newTask" v-on:keyup.enter="addTask">
+					<button  v-on:click="addTask">Submit</button>
+					<button v-on:click="clearList">Clear List</button>
+				</section>`
+			});
+			Vue.component('task', {
+				template:  `
+				<ul class="list">
+					<li v-for="task in taskList" v-bind:class="{done: task.checked}">
+						<input type="checkbox" class="checkbox" v-model="task.checked">
+						<input type="text" v-show="task.edit" v-model="task.edit">
+						<label for="checkbox" v-on:click="editTask(task)">{{ task.title }}</label>
+						<button class="delete" v-on:click="removeTask(task)">X</button>
+					</li>
+				</ul>`
+			});
 			var app = new Vue({
 				el: "#app",
 				data: {
